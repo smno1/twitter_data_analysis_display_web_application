@@ -13,5 +13,9 @@ class PortalController < ApplicationController
   def trend
       @selection=["Daily","Weekly","Yearly"]
   end
+
+  def top_20
+      @selection=["Daily","Weekly","Yearly"]
+  end
 end
   
