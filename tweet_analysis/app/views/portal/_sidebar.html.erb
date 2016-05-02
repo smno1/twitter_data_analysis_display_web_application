@@ -1,0 +1,9 @@
+<div class="sidebar-nav">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav" id='side-menu'>
+            <% @selection.each do |x|%>
+                <li onclick='setChartData("<%= x %>")'> <%= x %><br>
+            <% end %>
+        </ul>
+    </div>
+</div>

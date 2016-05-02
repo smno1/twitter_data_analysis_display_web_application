@@ -1,0 +1,13 @@
+
+<div id="feature_panel" class="data_panel">
+      <b>Feature selection</b><br>
+      <% @data_feature.each do |k,v|%>
+        <input type="radio" name="feature" onclick='setFeatureData("<%= k %>")'> <%= v %><br>
+      <% end %>
+</div>
+<div id="map"></div>
+<script 
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkGOniAh0e3h5yJ1gcVP6ep1DqbIrUdzM&libraries=visualization&callback=initHeatMap">
+</script>
+
+<script src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerwithlabel/1.1.5/src/markerwithlabel_packed.js"></script>

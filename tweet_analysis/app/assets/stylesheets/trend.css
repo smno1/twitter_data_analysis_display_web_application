@@ -1,0 +1,29 @@
+.charts{
+    margin-left: 100px
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 100px;
+  margin-top: 65px;
+  padding: 0;
+  list-style: none;
+  border: 1px;
+}
+
+.sidebar-nav li {
+  text-indent: 20px;
+  line-height: 40px;
+  display: block;
+  text-decoration: none;
+  color: #999999;
+}
+
+.sidebar-nav li:hover {
+  text-decoration: none;
+  color: black;
+  background: rgba(255,255,255,0.2);
+}
