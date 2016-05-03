@@ -8,5 +8,4 @@ var weekly_average_mood='/melbourne_tweets_ccc/_design/general/_view/dayTrend?gr
 var weekly_mood='/melbourne_tweets_ccc/_design/general/_view/dayTrend?group_level=2'
 var yearly_average_mood='/melbourne_tweets_ccc/_design/general/_view/monthTrend?group_level=1'
 var yearly_mood='/melbourne_tweets_ccc/_design/general/_view/monthTrend?group_level=2'
-var top_topic='/top_20/cdee29f235bd36640bb7b28e34000e0e'
-var top_user='/top_20/cdee29f235bd36640bb7b28e3400110e'
+var top_20='/top_20/_all_docs'

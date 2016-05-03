@@ -1,43 +1,70 @@
-var top_20_topic=[["melbourne" , 13497],
-["australia" , 2570],
-["auspol" , 2245],
-["qanda" , 1486],
-["equation" , 1311],
-["gms" , 1267],
-["mkr" , 1201],
-["love" , 1042],
-["coffee" , 992],
-["climate" , 921],
-["change" , 904],
-["ausopen" , 837],
-["peace" , 825],
-["democratically" , 798],
-["food" , 769],
-["photo" , 738],
-["micf" , 695],
-["repost" , 634],
-["ipcc" , 610],
-["art" , 603]]
 
-var top_20_user=
-[["metrotrains" , 962],
-["TurnbullMalcolm" , 926],
-["AFL" , 910],
-["theage" , 908],
-["theheraldsun" , 713],
-["Telstra" , 695],
-["YouTube" , 620],
-["abcnews" , 609],
-["EssendonFC" , 592],
-["MCG" , 591],
-["CollingwoodFC" , 587],
-["mmmhotbreakfast" , 570],
-["HawthornFC" , 566],
-["Melair" , 564],
-["GraysonDolan" , 500],
-["Richmond_FC" , 477],
-["evasurga" , 461],
-["Melbourne" , 460],
-["DanielAndrewsMP" , 447],
-["gomvfc" , 442]
-]
+function getTop20() {
+  $.ajax({
+    url: hostAddr + top_20,
+    type: 'get',
+    dataType: 'jsonp',
+    success: function(data) {
+     for (var i = data.rows.length - 1; i >= 0; i--) {
+       getTop20ByType(data.rows[i].id);
+     };
+   }
+ });
+}
+
+function getTop20ByType(address){
+  $.ajax({
+    url: hostAddr + "/top_20/"+address,
+    type: 'get',
+    dataType: 'jsonp',
+    success: function(data) {
+      var x=[];
+      var y=[];
+      for (var i = 0; i < data.top_20.length; i++) {
+        x.push(data.top_20[i][0]);
+        y.push(data.top_20[i][1]);
+      };
+      drawColumnChart(data.top_type,x,y);
+   }
+ });
+}
+
+function drawColumnChart(type,x,y) {
+    $('#'+type+'-container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Top 20 '+type
+        },
+        xAxis: {
+            categories: x,
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'number of related tweets'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: type,
+            data: y
+
+        }]
+    });
+}
