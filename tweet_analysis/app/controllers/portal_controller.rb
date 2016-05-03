@@ -3,7 +3,13 @@ class PortalController < ApplicationController
   end
 
   def polygonmap
-      @data_feature={"general"=>"General","movie"=>"Mvoie related tweets per thousand people","population"=>"Population", "unemployment"=>"Unemployment rate","income"=>"Average weekly income"}
+      @data_feature={"general"=>"General",
+        # "movie"=>"Mvoie related tweets per thousand people",
+        "population"=>"Population", 
+        "sentiment_positive"=>"Positive Sentiment Score",
+        "sentiment_negative"=>"Negative Sentiment Score",
+        "unemployment"=>"Unemployment rate",
+        "income"=>"Average weekly income"}
   end
 
   def heatmap

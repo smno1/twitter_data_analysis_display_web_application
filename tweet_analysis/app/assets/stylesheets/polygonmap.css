@@ -25,12 +25,13 @@
 #data_display_panel{
     width: 260px;
     margin-top: 65px;
+    right: 5px;
 }
 
 #feature_panel {
-    margin-top: 310px;
+    margin-top: 65px;
 }
 
 #legend_panel {
-    margin-top: 480px;
+    margin-top: 300px;
 }

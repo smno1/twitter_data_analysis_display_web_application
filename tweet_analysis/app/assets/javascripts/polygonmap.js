@@ -5,6 +5,8 @@ var mapData={"polygon":[],"data":[]}
 var threshold={"population": [1000,2000,5000,10000,20000,40000],
                "movie": [5,10,20,50,100,500],
                "unemployment":[3,5,7,9,11,13],
+               "sentiment_negative":[-0.6,-0.5,-0.4,-0.3,-0.2,-0.1],
+               "sentiment_positive":[0.1,0.2,0.3,0.4,0.5,0.6],
                "income":[400,500,600,700,800,900]
 }
 // var color_threshold=['#feebe2','#fcc5c0','#fa9fb5','#f768a1','#dd3497','#ae017e','#7a0177']
@@ -61,7 +63,7 @@ function coordsParser(Coords){
   return listOfCoords;
 }
 function getContent(properties){
-  return '<table class="table"><tbody> <tr> <td>Average income</td> <td>'+properties.averageIncome+'</td> </tr> <tr> <td>Average age</td> <td>'+properties.averageAge+'</td> </tr><tr> <td>Coke</td> <td>'+properties.coke+'</td> </tr><tr> <td>Population</td> <td>'+properties.population+'</td> </tr> </tbody> </table>';
+  return '<table class="table"><tbody> <tr> <td>Average income</td> <td>'+properties.averageIncome+'</td> </tr> <tr> <td>Average age</td> <td>'+properties.averageAge+'</td> </tr><tr> <td>Negative sentiment </td> <td>'+properties.sentiment_negative+'</td> </tr><tr> <td>Positive sentiment </td> <td>'+properties.sentiment_positive+'</td> </tr><tr> <td>Population</td> <td>'+properties.population+'</td> </tr> </tbody> </table>';
 }
 function getFeatureContent(){
   if(current_feature=="general"){
@@ -72,7 +74,7 @@ function getFeatureContent(){
   for (var i = 0; i < current_threshould.length; i++){
     content+= '<tr> <td style="width:15px; background:'+color_threshold[i]+' "></td> <td> <'+threshold[current_feature][i]+'</td> </tr>'
   }
-  return content+='<tr> <td style="background:'+color_threshold[6]+' "></td> <td> >'+threshold[current_feature][5]+'</td> </tr> </tbody> </table>';
+  return content+='<tr> <td style="background:'+color_threshold[6]+' "></td> <td> >'+threshold[current_feature][5]+'</td> </tr> <tr> <td style="width:15px; background: #000000;"></td> <td> undefined or null </td> </tr></tbody> </table>';
 }
 
 function updatePanelData(data){
@@ -90,6 +92,10 @@ function getCorrespondingColor(data){
       return getRespond(data.properties.averageIncome);
     case "unemployment":
       return getRespond(data.properties.unemployment);
+    case "sentiment_negative":
+      return getRespond(data.properties.sentiment_negative);
+    case "sentiment_positive":
+      return getRespond(data.properties.sentiment_positive);
   }
   return "#000000"
 }
@@ -100,7 +106,7 @@ function getRespond(attribute){
       return color_threshold[i]
     }
   }
-  return color_threshold[6]
+  return attribute > thresholdLst[5] ? color_threshold[6] : '#000000'
 }
 function setPolyToMap(data){
   // Construct the polygon.

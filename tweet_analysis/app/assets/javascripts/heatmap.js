@@ -42,7 +42,7 @@ function setMarkerToPoint(coordinates,sentiments){
       labelClass: "heatmapLabel", // the CSS class for the label
       labelStyle: {opacity: 1.0},
       icon: "http://placehold.it/1x1",
-      visible: true
+      visible: false
     });
     // markers.push(marker);
     google.maps.event.addListener(marker, "mousemove", function(event) {
