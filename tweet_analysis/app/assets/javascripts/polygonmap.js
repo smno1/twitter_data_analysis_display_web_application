@@ -9,16 +9,18 @@ var threshold={"population": [1000,2000,5000,10000,20000,40000],
                "sentiment_positive":[0.1,0.2,0.3,0.4,0.5,0.6],
                "income":[400,500,600,700,800,900]
 }
-// var color_threshold=['#feebe2','#fcc5c0','#fa9fb5','#f768a1','#dd3497','#ae017e','#7a0177']
-var color_threshold=[
-    'rgba(0, 255, 255, 1)',
-    'rgba(0, 127, 255, 1)',
-    'rgba(0, 0, 255, 1)',
-    'rgba(0, 0, 191, 1)',
-    'rgba(0, 0, 127, 1)',
-    'rgba(127, 0, 63, 1)',
-    'rgba(255, 0, 0, 1)'
-  ]
+var poly_continue_flag= true;
+var color_threshold=['#feebe2','#fcc5c0','#fa9fb5','#f768a1','#dd3497','#ae017e','#7a0177']
+// Alternative color choice
+// var color_threshold=[
+//     'rgba(0, 255, 255, 1)',
+//     'rgba(0, 127, 255, 1)',
+//     'rgba(0, 0, 255, 1)',
+//     'rgba(0, 0, 191, 1)',
+//     'rgba(0, 0, 127, 1)',
+//     'rgba(127, 0, 63, 1)',
+//     'rgba(255, 0, 0, 1)'
+//   ]
 var current_feature = "general"
 
 function initPolyMap() {
@@ -27,7 +29,8 @@ function initPolyMap() {
     center: melbourne_center_coordinates,
     mapTypeId: google.maps.MapTypeId.HYBRID
   });
-  getPostcodesCall()
+  poly_continue_flag= true;
+  getPostcodesCall();
 }
 
 function getPostcodesCall(){
@@ -36,7 +39,7 @@ function getPostcodesCall(){
     type: 'get',
     dataType: 'jsonp',
     success: function(data) {
-      for(var i = 0; i < data.rows.length; i++){
+      for(var i = 0; i < data.rows.length&&poly_continue_flag; i++){
         var pCodeUrl = hostAddr + suburb + '/' + data.rows[i].id;
         getPcodeData(pCodeUrl);
       }
@@ -50,7 +53,7 @@ function getPcodeData(pCodeUrl){
     type: 'get',
     dataType: 'jsonp',
     success: function(data) {
-      setPolyToMap(data);
+      if(poly_continue_flag){setPolyToMap(data);}
     }
   });
 }
@@ -63,15 +66,15 @@ function coordsParser(Coords){
   return listOfCoords;
 }
 function getContent(properties){
-  return '<table class="table"><tbody> <tr> <td>Average income</td> <td>'+properties.averageIncome+'</td> </tr> <tr> <td>Average age</td> <td>'+properties.averageAge+'</td> </tr><tr> <td>Negative sentiment </td> <td>'+properties.sentiment_negative+'</td> </tr><tr> <td>Positive sentiment </td> <td>'+properties.sentiment_positive+'</td> </tr><tr> <td>Population</td> <td>'+properties.population+'</td> </tr> </tbody> </table>';
+  return '<table class="table"><tbody> <tr> <td>Average income</td> <td>'+properties.averageIncome+'</td> </tr> <tr> <td>Average age</td> <td>'+properties.averageAge+'</td> </tr><tr> <td>Negative sentiment </td> <td>'+getFixedNumber(properties.sentiment_negative,3)+'</td> </tr><tr> <td>Positive sentiment </td> <td>'+getFixedNumber(properties.sentiment_positive,3)+'</td> </tr><tr> <td>Population</td> <td>'+properties.population+'</td> </tr> </tbody> </table>';
 }
 function getFeatureContent(){
   if(current_feature=="general"){
     return "";
   }
-  var current_threshould=threshold[current_feature];
+  var current_threshold=threshold[current_feature];
   var content='<table><tbody>';
-  for (var i = 0; i < current_threshould.length; i++){
+  for (var i = 0; i < current_threshold.length; i++){
     content+= '<tr> <td style="width:15px; background:'+color_threshold[i]+' "></td> <td> <'+threshold[current_feature][i]+'</td> </tr>'
   }
   return content+='<tr> <td style="background:'+color_threshold[6]+' "></td> <td> >'+threshold[current_feature][5]+'</td> </tr> <tr> <td style="width:15px; background: #000000;"></td> <td> undefined or null </td> </tr></tbody> </table>';

@@ -5,21 +5,21 @@
     </div>
     <div>
       <ul class="nav navbar-nav">
-        <li><%= link_to trend_path do 
-              fa_icon "bar-chart", text: "Trend"
-            end %>
+        <li><%= link_to trend_path , :onclick => 'poly_continue_flag=false;' do %> 
+              <%= fa_icon "bar-chart", text: "Trend" %>
+           <% end %>
         </li>
         <li><%= link_to polygonmap_path do 
               fa_icon "globe", text: "Polygonmap"
             end %>
         </li>
-        <li><%= link_to heatmap_path do 
-              fa_icon "fire", text: "Heatmap"
-            end %>
+        <li><%= link_to heatmap_path, :onclick => 'poly_continue_flag=false;' do %> 
+              <%=fa_icon "fire", text: "Heatmap"%>
+           <%end %>
         </li>
-        <li><%= link_to top_20_path do 
-              fa_icon "group", text: "Top 20"
-            end %>
+        <li><%= link_to top_20_path, :onclick => 'poly_continue_flag=false;' do %> 
+             <%= fa_icon "group", text: "Top 20"%>
+           <%end %>
         </li>
       </ul>
     </div>

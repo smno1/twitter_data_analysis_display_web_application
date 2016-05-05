@@ -1,7 +1,7 @@
 var map, heatmap;
 var good_sen=0
 var bad_sen=0
-
+var current_topic="movie"
 // var markers=[];
 function initHeatMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -9,14 +9,14 @@ function initHeatMap() {
     center: melbourne_center_coordinates,
     mapTypeId: google.maps.MapTypeId.HYBRID
   });
-  getPoints();
+  getPoints(movie_id_coordinates_address);
 }
 
-function getPoints() {
+function getPoints(address) {
     var coordinates=[];
     var sentiments=[];
     $.ajax({
-        url: hostAddr + movie_id_coordinates_address,
+        url: hostAddr + address,
         type: 'get',
         dataType: 'jsonp',
         success: function(data) {
@@ -85,6 +85,7 @@ function drawSentimentFanChart(){
     });
 }
 
+// too slow to add all markers.
 function setMarkerToPoint(coordinates,sentiments){
   for(var i = 0; i < sentiments.length; i++){
     var marker = new MarkerWithLabel({
@@ -117,4 +118,9 @@ function getLabelContent(sentiment){
   }else{
     return '<i class="fa fa-frown-o fa-fw"></i>';
   }
+}
+
+function setHeatMapFeatureData(feature){
+  current_topic=feature;
+  getPoints(window[feature+"_id_coordinates_address"]);
 }
