@@ -4,10 +4,14 @@ var polyMap
 var mapData={"polygon":[],"data":[]}
 var threshold={"population": [1000,2000,5000,10000,20000,40000],
                "movie": [5,10,20,50,100,500],
+               "gym": [5,10,20,50,100,500],
+               "book": [5,10,20,50,100,500],
+               "crime": [10,20,40,100,500,1000],
                "unemployment":[3,5,7,9,11,13],
                "sentiment_negative":[-0.6,-0.5,-0.4,-0.3,-0.2,-0.1],
                "sentiment_positive":[0.1,0.2,0.3,0.4,0.5,0.6],
-               "income":[400,500,600,700,800,900]
+               "income":[400,500,600,700,800,900],
+               "edu":[10,15,20,30,45,60]
 }
 var poly_continue_flag= true;
 var color_threshold=['#feebe2','#fcc5c0','#fa9fb5','#f768a1','#dd3497','#ae017e','#7a0177']
@@ -65,8 +69,11 @@ function coordsParser(Coords){
   }
   return listOfCoords;
 }
-function getContent(properties){
-  return '<table class="table"><tbody> <tr> <td>Average income</td> <td>'+properties.averageIncome+'</td> </tr> <tr> <td>Average age</td> <td>'+properties.averageAge+'</td> </tr><tr> <td>Negative sentiment </td> <td>'+getFixedNumber(properties.sentiment_negative,3)+'</td> </tr><tr> <td>Positive sentiment </td> <td>'+getFixedNumber(properties.sentiment_positive,3)+'</td> </tr><tr> <td>Population</td> <td>'+properties.population+'</td> </tr> </tbody> </table>';
+function getContent(data){
+  return '<table class="table"><tbody> <tr> <td>Average income</td> <td>'+data.properties.averageIncome+'</td> </tr><tr> <td>Average age</td> <td>'+data.properties.averageAge+'</td> </tr><tr> <td>Tertiery Education</td> <td>'+data.properties.eduTertiery+'</td> </tr> <tr> <td>Negative sentiment </td> <td>'+getFixedNumber(data.properties.sentiment_negative,3)+'</td> </tr><tr> <td>Positive sentiment </td> <td>'+getFixedNumber(data.properties.sentiment_positive,3)+'</td> </tr><tr> <td>Population</td> <td>'+data.properties.population+'</td> </tr><tr> <td>Movie related tweeted</td> <td>'+ getFixedNumber(getCountData(data.movie,data.properties.population),2)+'</td> </tr><tr> <td>Gym related tweeted</td> <td>'+ getFixedNumber(getCountData(data.gym,data.properties.population),2)+'</td> </tr><tr> <td>Crime related tweeted</td> <td>'+ getFixedNumber(getCountData(data.crime,data.properties.population),2)+'</td> </tr><tr> <td>Book related tweeted</td> <td>'+ getFixedNumber(getCountData(data.book,data.properties.population),2)+'</td> </tr> </tbody> </table>';
+}
+function getCountData(data,population){
+  return (typeof data == "undefined") ? "undefined" : data["count"]*100000/population;
 }
 function getFeatureContent(){
   if(current_feature=="general"){
@@ -81,7 +88,7 @@ function getFeatureContent(){
 }
 
 function updatePanelData(data){
-  var content=getContent(data.properties);
+  var content=getContent(data);
   $("#surburd-name").text(data.properties.name);
   $("#panel-data").html(content);
 }
@@ -91,6 +98,8 @@ function getCorrespondingColor(data){
       return '#FFFFF0';
     case "population":
       return getRespond(data.properties.population);
+    case "edu":
+      return getRespond(data.properties.eduTertiery);
     case "income":
       return getRespond(data.properties.averageIncome);
     case "unemployment":
@@ -99,6 +108,14 @@ function getCorrespondingColor(data){
       return getRespond(data.properties.sentiment_negative);
     case "sentiment_positive":
       return getRespond(data.properties.sentiment_positive);
+    case "movie":
+      return getRespond(getFixedNumber(getCountData(data.movie,data.properties.population),2));
+    case "gym":
+      return getRespond(getFixedNumber(getCountData(data.gym,data.properties.population),2));
+    case "crime":
+      return getRespond(getFixedNumber(getCountData(data.crime,data.properties.population),2));
+    case "book":
+      return getRespond(getFixedNumber(getCountData(data.book,data.properties.population),2));
   }
   return "#000000"
 }
