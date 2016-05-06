@@ -5,6 +5,10 @@
     </div>
     <div>
       <ul class="nav navbar-nav">
+        <li><%= link_to general_path , :onclick => 'poly_continue_flag=false;' do %> 
+              <%= fa_icon "pie-chart", text: "General" %>
+           <% end %>
+        </li>
         <li><%= link_to trend_path , :onclick => 'poly_continue_flag=false;' do %> 
               <%= fa_icon "bar-chart", text: "Trend" %>
            <% end %>
@@ -17,8 +21,8 @@
               <%=fa_icon "fire", text: "Heatmap"%>
            <%end %>
         </li>
-        <li><%= link_to top_20_path, :onclick => 'poly_continue_flag=false;' do %> 
-             <%= fa_icon "group", text: "Top 20"%>
+        <li><%= link_to top_10_path, :onclick => 'poly_continue_flag=false;' do %> 
+             <%= fa_icon "group", text: "Top 10"%>
            <%end %>
         </li>
       </ul>

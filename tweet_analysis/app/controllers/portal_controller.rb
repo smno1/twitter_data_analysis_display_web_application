@@ -1,5 +1,6 @@
 class PortalController < ApplicationController
-  def welcome
+  def general
+      @container=["device","sentiment"]
   end
 
   def polygonmap
@@ -20,8 +21,8 @@ class PortalController < ApplicationController
       @selection=["Daily","Weekly","Yearly"]
   end
 
-  def top_20
-      @selection=["Daily","Weekly","Yearly"]
+  def top_10
+      @container=["user","topic"]
   end
 end
   

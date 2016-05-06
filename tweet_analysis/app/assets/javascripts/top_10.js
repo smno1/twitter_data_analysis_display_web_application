@@ -20,9 +20,9 @@ function getTop20ByType(address){
     success: function(data) {
       var x=[];
       var y=[];
-      for (var i = 0; i < data.top_20.length; i++) {
-        x.push(data.top_20[i][0]);
-        y.push(data.top_20[i][1]);
+      for (var i = 0; i < data.top_10.length; i++) {
+        x.push(data.top_10[i][0]);
+        y.push(data.top_10[i][1]);
       };
       drawColumnChart(data.top_type,x,y);
    }
@@ -35,7 +35,7 @@ function drawColumnChart(type,x,y) {
             type: 'column'
         },
         title: {
-            text: 'Top 20 '+type
+            text: 'Top 10 '+type
         },
         xAxis: {
             categories: x,

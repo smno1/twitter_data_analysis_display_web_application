@@ -1,0 +1,6 @@
+<% @container.each_with_index do |c,i|%>
+    <div id="<%=c%>-container" class="col-md-6" style='min-width: 200px; height: 400px; margin: 0 auto; margin-bottom: 100px; <%= (i==0 || i==1) ? "margin-top: 170px" : ""%>'></div>
+<% end%>
+<script type="text/javascript">
+initGeneralPieChart();
+</script>

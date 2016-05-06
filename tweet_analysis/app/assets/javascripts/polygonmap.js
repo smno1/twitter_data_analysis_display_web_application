@@ -1,6 +1,6 @@
 var hostAddr = 'http://115.146.89.67:5984'
 var suburb= '/suburb_boundaries'
-var map
+var polyMap 
 var mapData={"polygon":[],"data":[]}
 var threshold={"population": [1000,2000,5000,10000,20000,40000],
                "movie": [5,10,20,50,100,500],
@@ -24,7 +24,7 @@ var color_threshold=['#feebe2','#fcc5c0','#fa9fb5','#f768a1','#dd3497','#ae017e'
 var current_feature = "general"
 
 function initPolyMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
+  polyMap = new google.maps.Map(document.getElementById('map'), {
     zoom: 9,
     center: melbourne_center_coordinates,
     mapTypeId: google.maps.MapTypeId.HYBRID
@@ -118,7 +118,7 @@ function setPolyToMap(data){
         position: new google.maps.LatLng(0,0),
         draggable: false,
         raiseOnDrag: false,
-        map: map,
+        map: polyMap,
         labelContent: data.properties.name,//getContent(data.properties),
         labelAnchor: new google.maps.Point(30, 40),
         labelClass: "polygonLabel", // the CSS class for the label
@@ -133,7 +133,7 @@ function setPolyToMap(data){
     strokeWeight: 1,
     fillColor: getCorrespondingColor(data),
     fillOpacity: 0.5,
-    map: map
+    map: polyMap
   });
   google.maps.event.addListener(polygon, "mousemove", function(event) {
     polygon.setOptions({strokeColor: "#000000"});

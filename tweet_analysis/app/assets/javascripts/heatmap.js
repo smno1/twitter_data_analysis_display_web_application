@@ -1,13 +1,11 @@
 var map, heatmap;
-var good_sen=0
-var bad_sen=0
 var current_topic="movie"
 // var markers=[];
 function initHeatMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10,
     center: melbourne_center_coordinates,
-    mapTypeId: google.maps.MapTypeId.HYBRID
+    mapTypeId: google.maps.MapTypeId.SATELLITE//TERRAIN//HYBRID
   });
   getPoints(movie_id_coordinates_address);
 }
@@ -22,17 +20,20 @@ function getPoints(address) {
         success: function(data) {
           good_sen=0;
           bad_sen=0;
+          netural_sen=0;
           for(var i = 0; i < data.rows.length; i++){
             coordinates.push(new google.maps.LatLng(data.rows[i].value[0][0], data.rows[i].value[0][1]));
             sentiments.push(data.rows[i].value[1]);
             if (data.rows[i].value[1]>0) {
               good_sen+=1;
-            }else{
+            }else if(data.rows[i].value[1]<0){
               bad_sen+=1;
+            }else{
+              netural_sen+=1
             };
           }
           // setMarkerToPoint(coordinates,sentiments);
-          drawSentimentFanChart();
+          drawSentimentFanChart(good_sen,bad_sen,netural_sen);
           heatmap = new google.maps.visualization.HeatmapLayer({
           data: coordinates,
           map: map
@@ -41,7 +42,7 @@ function getPoints(address) {
     });
 }
 
-function drawSentimentFanChart(){
+function drawSentimentFanChart(good_sen,bad_sen,netural_sen){
     $('#sentiment_fan').highcharts({
         chart: {
             plotBackgroundColor: null,
@@ -55,7 +56,7 @@ function drawSentimentFanChart(){
             y: 40
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: 'Percentage: <b>{point.percentage:.1f}%</b><br>Number: <b>{point.y}</b>'
         },
         plotOptions: {
             pie: {
@@ -75,11 +76,12 @@ function drawSentimentFanChart(){
         },
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: 'share',
             innerSize: '50%',
             data: [
-                ['pos',   good_sen/(good_sen+bad_sen)],
-                ['neg',   bad_sen/(good_sen+bad_sen)]
+                {name: 'pos', y: good_sen, color: "#99F53C"},
+                {name: 'netural', y: netural_sen, color: "#6EFBFB"},
+                {name: 'neg', y: bad_sen, color: "#CACAD2"}
             ]
         }]
     });
@@ -111,9 +113,9 @@ function setMarkerToPoint(coordinates,sentiments){
 }
 
 function getLabelContent(sentiment){
-  if(sentiment>0.2){
+  if(sentiment>0){
     return '<i class="fa fa-smile-o fa-fw"></i>';
-  }else if(sentiment>-0.2){
+  }else if(sentiment==0){
     return '<i class="fa fa-meh-o fa-fw"></i>';
   }else{
     return '<i class="fa fa-frown-o fa-fw"></i>';
@@ -122,5 +124,6 @@ function getLabelContent(sentiment){
 
 function setHeatMapFeatureData(feature){
   current_topic=feature;
+  heatmap.setMap(null);
   getPoints(window[feature+"_id_coordinates_address"]);
 }
