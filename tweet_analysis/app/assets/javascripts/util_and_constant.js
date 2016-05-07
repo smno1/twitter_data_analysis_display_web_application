@@ -16,6 +16,7 @@ var top_20='/top_20/_all_docs';
 var device_info='/melbourne_ccc/_design/general/_view/device?group_level=1';
 var sentiment_info='/melbourne_ccc/_design/general/_view/overall?group_level=1';
 var fresh_flag=false;
+var suburb_data_rows=0;
 
 function getFixedNumber(number, fixedpoint){
     if(isNaN(number)){return number;}
@@ -26,6 +27,32 @@ function isUndefined(data,request_data){
     return (typeof data == "undefined") ? "undefined" : data[request_data];
 }
 
+function getPostcodesCall(rowHandler){
+  $.ajax({
+    url: hostAddr + suburb+'/_all_docs',
+    type: 'get',
+    dataType: 'jsonp',
+    success: function(data) {
+      suburb_data_rows=data.rows.length;
+      for(var i = 0; i < data.rows.length; i++){
+      // for(var i = 0; i < 50; i++){
+        var pCodeUrl = hostAddr + suburb + '/' + data.rows[i].id;
+        getPcodeData(pCodeUrl,rowHandler);
+      }
+    }
+  });
+}
+
+function getPcodeData(pCodeUrl,rowHandler){
+  $.ajax({
+    url: pCodeUrl,
+    type: 'get',
+    dataType: 'jsonp',
+    success: function(data) {
+      rowHandler(data);
+    }
+  });
+}
 // window.onload=function(){
 //     if(fresh_flag){
 //         fresh_flag=false;

@@ -3,7 +3,7 @@ var current_topic="movie"
 // var markers=[];
 function initHeatMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 10,
+    zoom: 11,
     center: melbourne_center_coordinates,
     mapTypeId: google.maps.MapTypeId.SATELLITE//TERRAIN//HYBRID
   });

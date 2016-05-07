@@ -14,18 +14,10 @@ var threshold={"population": [1000,2000,5000,10000,20000,40000],
                "edu":[10,15,20,30,45,60]
 }
 var poly_continue_flag= true;
+var current_feature = "general"
 var color_threshold=['#feebe2','#fcc5c0','#fa9fb5','#f768a1','#dd3497','#ae017e','#7a0177']
 // Alternative color choice
-// var color_threshold=[
-//     'rgba(0, 255, 255, 1)',
-//     'rgba(0, 127, 255, 1)',
-//     'rgba(0, 0, 255, 1)',
-//     'rgba(0, 0, 191, 1)',
-//     'rgba(0, 0, 127, 1)',
-//     'rgba(127, 0, 63, 1)',
-//     'rgba(255, 0, 0, 1)'
-//   ]
-var current_feature = "general"
+// var color_threshold=['rgba(0, 255, 255, 1)', 'rgba(0, 127, 255, 1)', 'rgba(0, 0, 255, 1)', 'rgba(0, 0, 191, 1)', 'rgba(0, 0, 127, 1)', 'rgba(127, 0, 63, 1)', 'rgba(255, 0, 0, 1)' ]
 
 function initPolyMap() {
   polyMap = new google.maps.Map(document.getElementById('map'), {
@@ -34,33 +26,9 @@ function initPolyMap() {
     mapTypeId: google.maps.MapTypeId.HYBRID
   });
   poly_continue_flag= true;
-  getPostcodesCall();
+  getPostcodesCall(setPolyToMap);
 }
 
-function getPostcodesCall(){
-  $.ajax({
-    url: hostAddr + suburb+'/_all_docs',
-    type: 'get',
-    dataType: 'jsonp',
-    success: function(data) {
-      for(var i = 0; i < data.rows.length&&poly_continue_flag; i++){
-        var pCodeUrl = hostAddr + suburb + '/' + data.rows[i].id;
-        getPcodeData(pCodeUrl);
-      }
-    }
-  });
-}
-
-function getPcodeData(pCodeUrl){
-  $.ajax({
-    url: pCodeUrl,
-    type: 'get',
-    dataType: 'jsonp',
-    success: function(data) {
-      if(poly_continue_flag){setPolyToMap(data);}
-    }
-  });
-}
 function coordsParser(Coords){
   var listOfCoords = []
   for (var i = 0; i < Coords.length; i++){
@@ -69,12 +37,12 @@ function coordsParser(Coords){
   }
   return listOfCoords;
 }
-function getContent(data){
-  return '<table class="table"><tbody> <tr> <td>Average income</td> <td>'+data.properties.averageIncome+'</td> </tr><tr> <td>Average age</td> <td>'+data.properties.averageAge+'</td> </tr><tr> <td>Tertiery Education</td> <td>'+data.properties.eduTertiery+'</td> </tr> <tr> <td>Negative sentiment </td> <td>'+getFixedNumber(data.properties.sentiment_negative,3)+'</td> </tr><tr> <td>Positive sentiment </td> <td>'+getFixedNumber(data.properties.sentiment_positive,3)+'</td> </tr><tr> <td>Population</td> <td>'+data.properties.population+'</td> </tr><tr> <td>Movie related tweeted</td> <td>'+ getFixedNumber(getCountData(data.movie,data.properties.population),2)+'</td> </tr><tr> <td>Gym related tweeted</td> <td>'+ getFixedNumber(getCountData(data.gym,data.properties.population),2)+'</td> </tr><tr> <td>Crime related tweeted</td> <td>'+ getFixedNumber(getCountData(data.crime,data.properties.population),2)+'</td> </tr><tr> <td>Book related tweeted</td> <td>'+ getFixedNumber(getCountData(data.book,data.properties.population),2)+'</td> </tr> </tbody> </table>';
+function getContent(properties){
+  return '<table class="table"><tbody> <tr> <td>Average income</td> <td>'+properties.averageIncome+'</td> </tr><tr> <td>Average age</td> <td>'+properties.averageAge+'</td> </tr><tr> <td>Tertiery Education</td> <td>'+properties.eduTertiery+'</td> </tr> <tr> <td>Negative sentiment </td> <td>'+getFixedNumber(properties.sentiment_negative,3)+'</td> </tr><tr> <td>Positive sentiment </td> <td>'+getFixedNumber(properties.sentiment_positive,3)+'</td> </tr><tr> <td>Population</td> <td>'+properties.population+'</td> </tr><tr> <td>Movie related tweeted</td> <td>'+ properties.movie+'</td> </tr><tr> <td>Gym related tweeted</td> <td>'+ properties.gym+'</td> </tr><tr> <td>Crime related tweeted</td> <td>'+ properties.crime+'</td> </tr><tr> <td>Book related tweeted</td> <td>'+ properties.book+'</td> </tr> </tbody> </table>';
 }
-function getCountData(data,population){
-  return (typeof data == "undefined") ? "undefined" : data["count"]*100000/population;
-}
+// function getCountData(data,population){
+//   return (typeof data == "undefined") ? "undefined" : data["count"]*100000/population;
+// }
 function getFeatureContent(){
   if(current_feature=="general"){
     return "";
@@ -88,7 +56,7 @@ function getFeatureContent(){
 }
 
 function updatePanelData(data){
-  var content=getContent(data);
+  var content=getContent(data.properties);
   $("#surburd-name").text(data.properties.name);
   $("#panel-data").html(content);
 }

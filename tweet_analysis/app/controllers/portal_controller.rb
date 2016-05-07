@@ -30,5 +30,10 @@ class PortalController < ApplicationController
   def top_10
       @container=["user","topic"]
   end
+
+  def scenario
+    @selection=["Movie","Gym","Book","Crime"]
+  end
+
 end
   
