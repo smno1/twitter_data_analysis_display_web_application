@@ -67,10 +67,12 @@ function suburbDataHandler(data){
 }
 
 function scenerioSentiment(){
-    if(sortedSentimentChartedInfo.postcodelst.length>0){sortedSentimentChartedInfo={
-    "postcodelst":[],"ageLst":[],"edulst":[],"unemploylst":[],"incomelst":[],"booklst":[],
-    "movielst":[],"crimelst":[],"gymlst":[],"sentimentLst":[],
-    "title": "Average Sentiment against all the other factors"};}
+    // if(sortedSentimentChartedInfo.postcodelst.length>0){sortedSentimentChartedInfo={
+    // "postcodelst":[],"ageLst":[],"edulst":[],"unemploylst":[],"incomelst":[],"booklst":[],
+    // "movielst":[],"crimelst":[],"gymlst":[],"sentimentLst":[],
+    // "title": "Average Sentiment against all the other factors"};}
+    if(sortedSentimentChartedInfo.postcodelst.length>0){return;}
+    postData.sort(function(a,b){return a.sentiment_average - b.sentiment_average;});
     postData.sort(function(a,b){return a.sentiment_average - b.sentiment_average;});
     postData.forEach(function(a){
         if(typeof a.sentiment_average !== "undefined" && a.sentiment_average>0&& a.averageIncome>0&& a.eduTertiery>0&&
