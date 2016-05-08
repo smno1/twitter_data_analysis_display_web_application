@@ -202,7 +202,7 @@ function drawCrimeComparisonChart(){
                 }
             },
             labels: {
-                format: '{value} %',
+                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[2]
                 }
@@ -327,7 +327,7 @@ function drawBookComparisonChart(){
                 }
             },
             labels: {
-                format: '{value} %',
+                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[2]
                 }
@@ -438,7 +438,7 @@ function drawMovieComparisonChart(){
                 }
             },
             labels: {
-                format: '{value} %',
+                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[2]
                 }
@@ -539,7 +539,7 @@ function drawGymComparisonChart(){
                 }
             },
             labels: {
-                format: '{value} %',
+                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[2]
                 }
