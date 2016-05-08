@@ -147,14 +147,16 @@ function drawCharts(){
             marker: {
                 symbol: 'triangle-down'
             },
-            data: bad_sentiment_score
+            data: bad_sentiment_score,
+            visible: false
         },
         {
             name: 'good sentiment',
             marker: {
                 symbol: 'triangle'
             },
-            data: good_sentiment_score
+            data: good_sentiment_score,
+            visible: false
         }
         ]
     });

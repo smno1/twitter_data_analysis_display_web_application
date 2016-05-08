@@ -35,7 +35,7 @@ function getPostcodesCall(rowHandler){
     success: function(data) {
       suburb_data_rows=data.rows.length;
       for(var i = 0; i < data.rows.length; i++){
-      // for(var i = 0; i < 50; i++){
+      // for(var i = 0; i < 100; i++){
         var pCodeUrl = hostAddr + suburb + '/' + data.rows[i].id;
         getPcodeData(pCodeUrl,rowHandler);
       }

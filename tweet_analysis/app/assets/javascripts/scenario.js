@@ -1,4 +1,9 @@
 var postData=[]
+var sortedSentimentChartedInfo={
+    "postcodelst":[],"ageLst":[],"edulst":[],"unemploylst":[],"incomelst":[],"booklst":[],
+    "movielst":[],"crimelst":[],"gymlst":[],"sentimentLst":[],
+    "title": "Average Sentiment against all the other factors"
+};
 var sortedCrimeChartedInfo={
     "postcodelst":[],"crimelst":[],"edulst":[],"unemploylst":[],"incomelst":[],
     "title": "Crime related tweets rate against income, tertiery education, and unemployment rate"
@@ -45,7 +50,7 @@ function suburbDataHandler(data){
         "movie": data.properties.movie,
         "sentiment_negative": data.properties.sentiment_negative,
         "sentiment_positive": data.properties.sentiment_positive,
-        "sentiment_average": data.properties.sentiment_average,
+        "sentiment_average": Number(data.properties.sentiment_average),
         "unemployment": Number(data.properties.unemployment),
         "eduTertiery": Number(data.properties.eduTertiery),
         "averageIncome": Number(data.properties.averageIncome),
@@ -61,11 +66,31 @@ function suburbDataHandler(data){
     }
 }
 
+function scenerioSentiment(){
+    if(sortedSentimentChartedInfo.postcodelst.length>0){return;}
+    postData.sort(function(a,b){return a.sentiment_average - b.sentiment_average;})
+    postData.forEach(function(a){
+        if(typeof a.sentiment_average !== "undefined" && a.sentiment_average>0&& a.averageIncome>0&& a.eduTertiery>0&&
+         a.unemployment>0&&a.gym>0&&a.averageAge>0&&a.movie>0&&a.book>0&&a.crime>0){
+            sortedSentimentChartedInfo.postcodelst.push(a.postcode);
+            sortedSentimentChartedInfo.incomelst.push(a.averageIncome);
+            sortedSentimentChartedInfo.sentimentLst.push(a.sentiment_average);
+            sortedSentimentChartedInfo.edulst.push(a.eduTertiery);
+            sortedSentimentChartedInfo.unemploylst.push(a.unemployment);
+            sortedSentimentChartedInfo.ageLst.push(a.averageAge);
+            sortedSentimentChartedInfo.crimelst.push(a.crime);
+            sortedSentimentChartedInfo.booklst.push(a.book);
+            sortedSentimentChartedInfo.gymlst.push(a.gym);
+            sortedSentimentChartedInfo.movielst.push(a.movie);
+        }
+    });
+} 
+
 function scenerioCrime(){
     if(sortedCrimeChartedInfo.postcodelst.length>0){return;}
     postData.sort(function(a,b){return a.crime - b.crime;})
     postData.forEach(function(a){
-        if(typeof a.crime !== "undefined" && a.crime>0&& a.averageIncome>0&& a.eduTertiery>0&& a.unemployment>0){
+        if(a.crime>0&& a.averageIncome>0&& a.eduTertiery>0&& a.unemployment>0){
             sortedCrimeChartedInfo.postcodelst.push(a.postcode);
             sortedCrimeChartedInfo.incomelst.push(a.averageIncome);
             sortedCrimeChartedInfo.edulst.push(a.eduTertiery);
@@ -133,460 +158,9 @@ function setComparisonChartData(feature){
         scenerioGym();
         drawGymComparisonChart();
         break;
+        case "Sentiment":
+        scenerioSentiment();
+        drawSentimentComparisonChart();
+        break;
     }
 }
-
-function drawCrimeComparisonChart(){
-    $('#comparison-chart-container').highcharts({
-        chart: {
-            zoomType: 'xy'
-        },
-        title: {
-            text: sortedCrimeChartedInfo.title
-        },
-        xAxis: [{
-            categories: sortedCrimeChartedInfo.postcodelst,
-            crosshair: true
-        }],
-        yAxis: [{ // Primary yAxis
-            labels: {
-                format: '{value}',
-                style: {
-                    color: Highcharts.getOptions().colors[3]
-                }
-            },
-            title: {
-                text: 'Crime Tweets Rate Benchmarked by population',
-                style: {
-                    color: Highcharts.getOptions().colors[3]
-                }
-            },
-            opposite: true
-
-        }, { // Secondary yAxis
-            gridLineWidth: 0,
-            title: {
-                text: 'Tertiary Education Rate',
-                style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
-            },
-            labels: {
-                format: '{value} %',
-                style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
-            }
-
-        }, { // Tertiary yAxis
-            gridLineWidth: 0,
-            title: {
-                text: 'Unemployment Rate',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            },
-            labels: {
-                format: '{value} %',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            },
-            opposite: true
-        }, { // Tertiary yAxis
-            gridLineWidth: 0,
-            title: {
-                text: 'Average Income',
-                style: {
-                    color: Highcharts.getOptions().colors[2]
-                }
-            },
-            labels: {
-                format: '{value}',
-                style: {
-                    color: Highcharts.getOptions().colors[2]
-                }
-            },
-            opposite: true
-        }
-
-        ],
-        tooltip: {
-            shared: true
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            x: 80,
-            verticalAlign: 'top',
-            y: 55,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-        series: [{
-            name: 'Tertiary Education',
-            type: 'spline',
-            yAxis: 1,
-            data: sortedCrimeChartedInfo.edulst,
-            tooltip: {
-                valueSuffix: ' %'
-            }
-
-        }, {
-            name: 'Unemployment Rate',
-            type: 'spline',
-            yAxis: 2,
-            data: sortedCrimeChartedInfo.unemploylst,
-            tooltip: {
-                valueSuffix: ' %'
-            }
-
-        },{
-            name: 'Average Income',
-            type: 'spline',
-            yAxis: 3,
-            data: sortedCrimeChartedInfo.incomelst,
-            tooltip: {
-                valueSuffix: ' %'
-            }
-
-        }, {
-            name: 'Crime Benchmarked Rate',
-            type: 'spline',
-            data: sortedCrimeChartedInfo.crimelst,
-            dashStyle: 'shortdot',
-            tooltip: {
-                valueSuffix: ' '
-            }
-        }]
-    });
-}
-function drawBookComparisonChart(){
-    $('#comparison-chart-container').highcharts({
-        chart: {
-            zoomType: 'xy'
-        },
-        title: {
-            text: sortedBookChartedInfo.title
-        },
-        xAxis: [{
-            categories: sortedBookChartedInfo.postcodelst,
-            crosshair: true
-        }],
-        yAxis: [{ // Primary yAxis
-            labels: {
-                format: '{value}',
-                style: {
-                    color: Highcharts.getOptions().colors[3]
-                }
-            },
-            title: {
-                text: 'Book Tweets Rate Benchmarked by population',
-                style: {
-                    color: Highcharts.getOptions().colors[3]
-                }
-            },
-            opposite: true
-
-        }, { // Secondary yAxis
-            gridLineWidth: 0,
-            title: {
-                text: 'Tertiary Education Rate',
-                style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
-            },
-            labels: {
-                format: '{value} %',
-                style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
-            }
-
-        }, { // Tertiary yAxis
-            gridLineWidth: 0,
-            title: {
-                text: 'Unemployment Rate',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            },
-            labels: {
-                format: '{value} %',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            },
-            opposite: true
-        }, { // Tertiary yAxis
-            gridLineWidth: 0,
-            title: {
-                text: 'Average Income',
-                style: {
-                    color: Highcharts.getOptions().colors[2]
-                }
-            },
-            labels: {
-                format: '{value}',
-                style: {
-                    color: Highcharts.getOptions().colors[2]
-                }
-            },
-            opposite: true
-        }
-
-        ],
-        tooltip: {
-            shared: true
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            x: 80,
-            verticalAlign: 'top',
-            y: 55,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-        series: [{
-            name: 'Tertiary Education',
-            type: 'spline',
-            yAxis: 1,
-            data: sortedBookChartedInfo.edulst,
-            tooltip: {
-                valueSuffix: ' %'
-            }
-
-        }, {
-            name: 'Unemployment Rate',
-            type: 'spline',
-            yAxis: 2,
-            data: sortedBookChartedInfo.unemploylst,
-            tooltip: {
-                valueSuffix: ' %'
-            }
-
-        },{
-            name: 'Average Income',
-            type: 'spline',
-            yAxis: 3,
-            data: sortedBookChartedInfo.incomelst,
-            tooltip: {
-                valueSuffix: ' %'
-            }
-
-        }, {
-            name: 'Book Benchmarked Rate',
-            type: 'spline',
-            data: sortedBookChartedInfo.booklst,
-            dashStyle: 'shortdot',
-            tooltip: {
-                valueSuffix: ' '
-            }
-        }]
-    });
-}
-
-function drawMovieComparisonChart(){
-    $('#comparison-chart-container').highcharts({
-        chart: {
-            zoomType: 'xy'
-        },
-        title: {
-            text: sortedMovieChartedInfo.title
-        },
-        xAxis: [{
-            categories: sortedMovieChartedInfo.postcodelst,
-            crosshair: true
-        }],
-        yAxis: [{ // Primary yAxis
-            labels: {
-                format: '{value}',
-                style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
-            },
-            title: {
-                text: 'Movie Tweets Rate Benchmarked by population',
-                style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
-            },
-            opposite: true
-
-        }, { // Secondary yAxis
-            gridLineWidth: 0,
-            title: {
-                text: 'Average Age',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            },
-            labels: {
-                format: '{value} %',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            }
-
-        }, { // Tertiary yAxis
-            gridLineWidth: 0,
-            title: {
-                text: 'Average Income',
-                style: {
-                    color: Highcharts.getOptions().colors[2]
-                }
-            },
-            labels: {
-                format: '{value}',
-                style: {
-                    color: Highcharts.getOptions().colors[2]
-                }
-            },
-            opposite: true
-        }
-
-        ],
-        tooltip: {
-            shared: true
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            x: 80,
-            verticalAlign: 'top',
-            y: 55,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-        series: [{
-            name: 'Average Age',
-            type: 'spline',
-            yAxis: 1,
-            data: sortedMovieChartedInfo.ageLst,
-            tooltip: {
-                valueSuffix: ' %'
-            }
-
-        }, {
-            name: 'Average Income',
-            type: 'spline',
-            yAxis: 2,
-            data: sortedMovieChartedInfo.incomelst,
-            tooltip: {
-                valueSuffix: ' %'
-            }
-
-        },{
-            name: 'Movie Benchmarked Rate',
-            type: 'spline',
-            data: sortedMovieChartedInfo.movielst,
-            dashStyle: 'shortdot',
-            tooltip: {
-                valueSuffix: ' '
-            }
-        }]
-    });
-}
-function drawGymComparisonChart(){
-    $('#comparison-chart-container').highcharts({
-        chart: {
-            zoomType: 'xy'
-        },
-        title: {
-            text: sortedGymChartedInfo.title
-        },
-        xAxis: [{
-            categories: sortedGymChartedInfo.postcodelst,
-            crosshair: true
-        }],
-        yAxis: [{ // Primary yAxis
-            labels: {
-                format: '{value}',
-                style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
-            },
-            title: {
-                text: 'Gym Tweets Rate Benchmarked by population',
-                style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
-            },
-            opposite: true
-
-        }, { // Secondary yAxis
-            gridLineWidth: 0,
-            title: {
-                text: 'Average Age',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            },
-            labels: {
-                format: '{value} %',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            }
-
-        }, { // Tertiary yAxis
-            gridLineWidth: 0,
-            title: {
-                text: 'Average Income',
-                style: {
-                    color: Highcharts.getOptions().colors[2]
-                }
-            },
-            labels: {
-                format: '{value}',
-                style: {
-                    color: Highcharts.getOptions().colors[2]
-                }
-            },
-            opposite: true
-        }
-
-        ],
-        tooltip: {
-            shared: true
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            x: 80,
-            verticalAlign: 'top',
-            y: 55,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
-        series: [{
-            name: 'Average Age',
-            type: 'spline',
-            yAxis: 1,
-            data: sortedGymChartedInfo.ageLst,
-            tooltip: {
-                valueSuffix: ' %'
-            }
-
-        }, {
-            name: 'Average Income',
-            type: 'spline',
-            yAxis: 2,
-            data: sortedGymChartedInfo.incomelst,
-            tooltip: {
-                valueSuffix: ' %'
-            }
-
-        },{
-            name: 'Gym Benchmarked Rate',
-            type: 'spline',
-            data: sortedGymChartedInfo.gymlst,
-            dashStyle: 'shortdot',
-            tooltip: {
-                valueSuffix: ' '
-            }
-        }]
-    });
-}
-

@@ -32,7 +32,7 @@ class PortalController < ApplicationController
   end
 
   def scenario
-    @selection=["Movie","Gym","Book","Crime"]
+    @selection=["Sentiment","Movie","Gym","Book","Crime"]
   end
 
 end
