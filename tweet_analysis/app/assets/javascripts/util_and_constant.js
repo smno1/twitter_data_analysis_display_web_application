@@ -34,8 +34,8 @@ function getPostcodesCall(rowHandler){
     dataType: 'jsonp',
     success: function(data) {
       suburb_data_rows=data.rows.length;
-      for(var i = 0; i < data.rows.length; i++){
-      // for(var i = 0; i < 100; i++){
+      // suburb_data_rows=300;
+      for(var i = 0; i < suburb_data_rows; i++){
         var pCodeUrl = hostAddr + suburb + '/' + data.rows[i].id;
         getPcodeData(pCodeUrl,rowHandler);
       }

@@ -67,8 +67,11 @@ function suburbDataHandler(data){
 }
 
 function scenerioSentiment(){
-    if(sortedSentimentChartedInfo.postcodelst.length>0){return;}
-    postData.sort(function(a,b){return a.sentiment_average - b.sentiment_average;})
+    if(sortedSentimentChartedInfo.postcodelst.length>0){sortedSentimentChartedInfo={
+    "postcodelst":[],"ageLst":[],"edulst":[],"unemploylst":[],"incomelst":[],"booklst":[],
+    "movielst":[],"crimelst":[],"gymlst":[],"sentimentLst":[],
+    "title": "Average Sentiment against all the other factors"};}
+    postData.sort(function(a,b){return a.sentiment_average - b.sentiment_average;});
     postData.forEach(function(a){
         if(typeof a.sentiment_average !== "undefined" && a.sentiment_average>0&& a.averageIncome>0&& a.eduTertiery>0&&
          a.unemployment>0&&a.gym>0&&a.averageAge>0&&a.movie>0&&a.book>0&&a.crime>0){
@@ -103,7 +106,7 @@ function scenerioMovie(){
     if(sortedMovieChartedInfo.postcodelst.length>0){return;}
     postData.sort(function(a,b){return a.movie - b.movie;})
     postData.forEach(function(a){
-        if(typeof a.movie !== "undefined" && a.movie>0&& a.averageIncome>0&& a.averageAge>0){
+        if(a.movie>0&& a.averageIncome>0&& a.averageAge>0){
             sortedMovieChartedInfo.postcodelst.push(a.postcode);
             sortedMovieChartedInfo.movielst.push(a.movie);
             sortedMovieChartedInfo.incomelst.push(a.averageIncome);
@@ -115,7 +118,7 @@ function scenerioGym(){
     if(sortedGymChartedInfo.postcodelst.length>0){return;}
     postData.sort(function(a,b){return a.gym - b.gym;})
     postData.forEach(function(a){
-        if(typeof a.gym !== "undefined" && a.gym>0&& a.averageIncome>0&& a.averageAge>0){
+        if(a.gym>0&& a.averageIncome>0&& a.averageAge>0){
             sortedGymChartedInfo.postcodelst.push(a.postcode);
             sortedGymChartedInfo.gymlst.push(a.gym);
             sortedGymChartedInfo.incomelst.push(a.averageIncome);
@@ -128,9 +131,7 @@ function scenerioBook(){
     if(sortedBookChartedInfo.postcodelst.length>0){return;}
     postData.sort(function(a,b){return a.book - b.book;})
     postData.forEach(function(a){
-        if(typeof a.book !== "undefined" && a.book>0&& a.averageIncome>0&& a.eduTertiery>0&& a.unemployment>0){
-        //     break;
-        // }else{
+        if(a.book>0&& a.averageIncome>0&& a.eduTertiery>0&& a.unemployment>0){
             sortedBookChartedInfo.postcodelst.push(a.postcode);
             sortedBookChartedInfo.incomelst.push(a.averageIncome);
             sortedBookChartedInfo.edulst.push(a.eduTertiery);
