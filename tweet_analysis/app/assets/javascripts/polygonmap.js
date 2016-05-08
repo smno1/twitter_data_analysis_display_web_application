@@ -7,6 +7,7 @@ var threshold={"population": [1000,2000,5000,10000,20000,40000],
                "gym": [5,10,20,50,100,500],
                "book": [5,10,20,50,100,500],
                "crime": [10,20,40,100,500,1000],
+               "disease": [10,20,40,100,500,1000],
                "unemployment":[3,5,7,9,11,13],
                "sentiment_negative":[-0.6,-0.5,-0.4,-0.3,-0.2,-0.1],
                "sentiment_positive":[0.1,0.2,0.3,0.4,0.5,0.6],
@@ -38,7 +39,7 @@ function coordsParser(Coords){
   return listOfCoords;
 }
 function getContent(properties){
-  return '<table class="table"><tbody> <tr> <td>Average income</td> <td>'+properties.averageIncome+'</td> </tr><tr> <td>Average age</td> <td>'+properties.averageAge+'</td> </tr><tr> <td>Tertiery Education</td> <td>'+properties.eduTertiery+'</td> </tr> <tr> <td>Negative sentiment </td> <td>'+getFixedNumber(properties.sentiment_negative,3)+'</td> </tr><tr> <td>Positive sentiment </td> <td>'+getFixedNumber(properties.sentiment_positive,3)+'</td> </tr><tr> <td>Population</td> <td>'+properties.population+'</td> </tr><tr> <td>Movie related tweeted</td> <td>'+ properties.movie+'</td> </tr><tr> <td>Gym related tweeted</td> <td>'+ properties.gym+'</td> </tr><tr> <td>Crime related tweeted</td> <td>'+ properties.crime+'</td> </tr><tr> <td>Book related tweeted</td> <td>'+ properties.book+'</td> </tr> </tbody> </table>';
+  return '<table class="table"><tbody> <tr> <td>Average income</td> <td>'+properties.averageIncome+'</td> </tr><tr> <td>Average age</td> <td>'+properties.averageAge+'</td> </tr><tr> <td>Tertiery Education</td> <td>'+properties.eduTertiery+'</td> </tr> <tr> <td>Negative sentiment </td> <td>'+getFixedNumber(properties.sentiment_negative,3)+'</td> </tr><tr> <td>Positive sentiment </td> <td>'+getFixedNumber(properties.sentiment_positive,3)+'</td> </tr><tr> <td>Population</td> <td>'+properties.population+'</td> </tr><tr> <td>Movie related tweeted</td> <td>'+ properties.movie+'</td> </tr><tr> <td>Gym related tweeted</td> <td>'+ properties.gym+'</td> </tr><tr> <td>Crime related tweeted</td> <td>'+ properties.crime+'</td> </tr><tr> <td>Book related tweeted</td> <td>'+ properties.book+'</td> </tr><tr> <td>Disease related tweeted</td> <td>'+ properties.disease+'</td> </tr> </tbody> </table>';
 }
 // function getCountData(data,population){
 //   return (typeof data == "undefined") ? "undefined" : data["count"]*100000/population;
@@ -84,6 +85,8 @@ function getCorrespondingColor(data){
       return getRespond(data.properties.crime);
     case "book":
       return getRespond(data.properties.book);
+    case "disease":
+      return getRespond(data.properties.disease);
   }
   return "#000000"
 }

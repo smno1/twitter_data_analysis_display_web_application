@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'portal/trend', as: :trend
   get 'portal/top_10', as: :top_10
   get 'portal/scenario', as: :scenario
+  get 'portal/realtime', as: :realtime
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -90,6 +90,7 @@ function drawCrimeComparisonChart(){
             type: 'spline',
             yAxis: 1,
             data: sortedCrimeChartedInfo.edulst,
+            visible: false,
             tooltip: {
                 valueSuffix: ' %'
             }
@@ -99,6 +100,7 @@ function drawCrimeComparisonChart(){
             type: 'spline',
             yAxis: 2,
             data: sortedCrimeChartedInfo.unemploylst,
+            visible: false,
             tooltip: {
                 valueSuffix: ' %'
             }
@@ -108,6 +110,7 @@ function drawCrimeComparisonChart(){
             type: 'spline',
             yAxis: 3,
             data: sortedCrimeChartedInfo.incomelst,
+            visible: false,
             tooltip: {
                 valueSuffix: ''
             }
@@ -215,6 +218,7 @@ function drawBookComparisonChart(){
             type: 'spline',
             yAxis: 1,
             data: sortedBookChartedInfo.edulst,
+            visible: false,
             tooltip: {
                 valueSuffix: ' %'
             }
@@ -224,6 +228,7 @@ function drawBookComparisonChart(){
             type: 'spline',
             yAxis: 2,
             data: sortedBookChartedInfo.unemploylst,
+            visible: false,
             tooltip: {
                 valueSuffix: ' %'
             }
@@ -233,6 +238,7 @@ function drawBookComparisonChart(){
             type: 'spline',
             yAxis: 3,
             data: sortedBookChartedInfo.incomelst,
+            visible: false,
             tooltip: {
                 valueSuffix: ''
             }
@@ -333,6 +339,7 @@ function drawMovieComparisonChart(){
             type: 'spline',
             yAxis: 1,
             data: sortedMovieChartedInfo.ageLst,
+            visible: false,
             tooltip: {
                 valueSuffix: ''
             }
@@ -342,6 +349,7 @@ function drawMovieComparisonChart(){
             type: 'spline',
             yAxis: 2,
             data: sortedMovieChartedInfo.incomelst,
+            visible: false,
             tooltip: {
                 valueSuffix: ''
             }
@@ -434,6 +442,7 @@ function drawGymComparisonChart(){
             type: 'spline',
             yAxis: 1,
             data: sortedGymChartedInfo.ageLst,
+            visible: false,
             tooltip: {
                 valueSuffix: ''
             }
@@ -443,6 +452,7 @@ function drawGymComparisonChart(){
             type: 'spline',
             yAxis: 2,
             data: sortedGymChartedInfo.incomelst,
+            visible: false,
             tooltip: {
                 valueSuffix: ''
             }

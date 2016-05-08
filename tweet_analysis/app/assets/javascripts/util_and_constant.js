@@ -1,10 +1,12 @@
 var hostAddr = 'http://115.146.89.67:5984';
 var suburb= '/suburb_boundaries';
+var live_stream='/live_stream/_all_docs';
 var movie_id_coordinates_address='/movie_postcode_ccc/_design/movie/_view/id_coordinates';
 // var gym_id_coordinates_address='/melbourne_ccc/_design/gym/_view/id_coordinates';
 var gym_id_coordinates_address='/gym_postcode_ccc/_design/gym/_view/id_coordinates';
 var book_id_coordinates_address='/book_postcode_ccc/_design/book/_view/id_coordinates';
 var crime_id_coordinates_address='/crime_postcode_ccc/_design/crime/_view/id_coordinates';
+var disease_id_coordinates_address='/disease_postcode_ccc/_design/disease/_view/id_coordinates';
 var melbourne_center_coordinates={lat: -37.8602828, lng: 144.979616};
 var daily_average_mood='/melbourne_tweets_ccc/_design/general/_view/hoursTrend?group_level=1';
 var daily_mood='/melbourne_tweets_ccc/_design/general/_view/hoursTrend?group_level=2';

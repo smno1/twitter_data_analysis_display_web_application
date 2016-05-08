@@ -12,15 +12,17 @@ class PortalController < ApplicationController
         "sentiment_negative"=>"Negative Sentiment Score",
         "unemployment"=>"Unemployment rate",
         "income"=>"Average weekly income",
-        "movie"=>"Mvoie related tweets per ten thousand people",
-        "gym"=>"Gym related tweets per ten thousand people",
-        "book"=>"Book related tweets per ten thousand people",
-        "crime"=>"Crime related tweets per ten thousand people"
+        "movie"=>"Mvoie related tweets per one hundred thousand people",
+        "gym"=>"Gym related tweets per one hundred thousand people",
+        "book"=>"Book related tweets per one hundred thousand people",
+        "crime"=>"Crime related tweets per one hundred thousand people",
+        "disease"=>"disease related tweets per one hundred thousand people"
       }
   end
 
   def heatmap
-      @data_feature={"movie"=>"Mvoie related tweets","gym"=>"Gym related tweets","book"=>"Book related tweets","crime"=>"Crime related tweets"}
+      @data_feature={"movie"=>"Mvoie related tweets","gym"=>"Gym related tweets","book"=>"Book related tweets",
+        "crime"=>"Crime related tweets","disease"=>"Disease related tweets"}
   end
 
   def trend
@@ -33,6 +35,9 @@ class PortalController < ApplicationController
 
   def scenario
     @selection=["Sentiment","Movie","Gym","Book","Crime"]
+  end
+
+  def realtime
   end
 
 end
