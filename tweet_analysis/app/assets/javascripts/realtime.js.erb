@@ -1,0 +1,117 @@
+var map;
+var idArray=[];
+var counter=0;
+var counter2=0;
+var markerArray=[];
+function initializeRealtimeMap()
+{
+var mapProp = {
+  center:melbourne_center_coordinates,
+  zoom:10,
+  mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+
+ map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+ setInterval(getID,1000);
+
+}
+function getID()
+ { 
+   var Lat=[];
+   var Lng=[];
+  $.ajax({
+        url: hostAddr+live_stream,
+        type: "get",
+        dataType: "jsonp",
+        success: function(data) {
+          
+          idArray.push(data.rows[counter].id);
+          counter=counter+1;
+          getTweet();
+    }
+  });
+  
+
+
+}
+function getTweet()
+{    
+  var length=idArray.length;
+  for (counter2;counter2<length;counter2++){
+       $.ajax({
+        url: hostAddr+"/live_stream/"+idArray[counter2],
+        type: "get",
+        dataType: "jsonp",
+        success: function(data) {
+          addMarker(data.geo.coordinates,data.sentiment_score.polarity,data.text,data.created_at);
+    }
+  });
+
+  }
+
+}
+function addMarker(coordinates,sentiment_score,text,created_at)
+{      
+       var Lat=coordinates[0];
+       var Lng=coordinates[1];
+       var marker;
+       var myCenter=new google.maps.LatLng(Lat,Lng);
+       if (sentiment_score>=0) {
+        marker=new google.maps.Marker({
+          position:myCenter,
+          icon: "<%= asset_path('smile.png') %>",
+          animation: google.maps.Animation.BOUNCE
+           });
+          marker.setMap(map);
+      }
+       if (sentiment_score<0){
+        marker=new google.maps.Marker({
+          position:myCenter,
+          icon: "<%= asset_path('nh.png') %>",
+          animation: google.maps.Animation.BOUNCE
+           });
+         marker.setMap(map);
+       }
+
+        setTimeout(function(){marker.setAnimation(null);},700);
+        var boxText = document.createElement("div");
+        boxText.style.cssText = "border: #87cefa;  background: #87cefa; padding: 0px;";
+        boxText.innerHTML = text+";"+" created at "+created_at;
+
+    
+       
+        var infowindow = new google.maps.InfoWindow({
+       content:boxText,
+       
+        });
+        
+       google.maps.event.addListener(marker, 'click', function() {
+        
+         if(isInfoWindowOpen(infowindow)){
+          infowindow.close(map, marker);
+        }
+         else{
+          infowindow.open(map,marker);
+         }
+       });
+      
+         markerArray.push(marker);
+
+}
+function isInfoWindowOpen(infoWindow){
+    var map = infoWindow.getMap();
+    return (map !== null && typeof map !== "undefined");
+}
+function removeMarker()
+{  idArray.length=0;
+   if (markerArray) {
+ 
+      for (i in markerArray) {
+ 
+         markerArray[i].setMap(null);
+ 
+       }
+ 
+     }
+
+}

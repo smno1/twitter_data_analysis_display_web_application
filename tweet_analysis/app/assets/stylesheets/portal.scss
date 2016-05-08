@@ -1,0 +1,42 @@
+.navbar {
+   background-color: rgba(0,0,0,0.6);
+   background: rgba(0,0,0,0.6);
+   border: 0;
+   margin-bottom: 0;
+}
+.navbar-header span {
+   padding-left: 30px;
+   padding-right: 50px;
+   color: white;
+   font-family: myriad;
+}
+.nav .image {
+   padding-right: 25px;
+   color: white;
+}
+.nav .navcontent {
+   color: white;
+   font-family: myriad;
+   font-size: 15px;
+}
+.nav .navcontent:hover {
+   color: gray;
+}
+.nav li {
+   padding-right: 30px;
+}
+
+#myProgress {
+  position: relative;
+  display: none;
+  width: 100%;
+  height: 30px;
+  background-color: #ddd;
+}
+
+#myBar {
+  position: absolute;
+  width: 1%;
+  height: 100%;
+  background-color: #4CAF50;
+}

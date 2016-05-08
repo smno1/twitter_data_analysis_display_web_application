@@ -1,0 +1,21 @@
+development: &development
+  protocol: 'http'
+  host: 115.146.89.67
+  port: 5984
+  prefix: 
+  suffix: 
+  username:
+  password:
+
+test:
+  <<: *development
+  # suffix: test
+
+production:
+  protocol: 'https'
+  host: 115.146.89.67
+  port: 5984
+  prefix: 
+  suffix: 
+  username: root
+  password: 123

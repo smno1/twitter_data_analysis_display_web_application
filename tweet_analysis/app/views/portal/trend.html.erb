@@ -1,0 +1,9 @@
+<%= render :partial => '/portal/sidebar', :locals => {:selection=> @selection,:function_name=>"setChartData"}%>
+<div class="charts">
+    <div id="mood-charts" style="min-width: 310px; height: 600px; margin: 0 auto; padding-top: 70px"></div>
+</div>
+
+<script type="text/javascript">
+initCharts();
+</script>
+
