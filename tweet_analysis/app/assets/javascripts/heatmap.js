@@ -1,5 +1,34 @@
 var map, heatmap;
 var current_topic="movie"
+var gradient=[];
+var gradient_limit={"movie": 1,"gym":1,"book":2,"crime":3,"disease":5};
+var gradient_base = [
+    'rgba(0, 255, 255',
+    'rgba(0, 191, 255',
+    'rgba(0, 127, 255',
+    'rgba(0, 63, 255',
+    'rgba(0, 0, 255',
+    'rgba(0, 0, 223',
+    'rgba(0, 0, 191',
+    'rgba(0, 0, 159',
+    'rgba(0, 0, 127',
+    'rgba(63, 0, 91',
+    'rgba(127, 0, 63',
+    'rgba(191, 0, 31',
+    'rgba(255, 0, 0'
+  ]
+
+function getGradient(){
+  gradient=['rgba(0, 255, 255, 0)'];
+  gradient_base.forEach(function(a){
+    for (var i = 1; i < 10; i++) {
+      for (var j = 0; j < gradient_limit[current_topic]; j++) {
+        gradient.push(a+',0.'+i+")");
+      };
+    };
+    gradient.push(a+',1)');
+  });
+}
 // var markers=[];
 function initHeatMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -7,7 +36,7 @@ function initHeatMap() {
     center: melbourne_center_coordinates,
     mapTypeId: google.maps.MapTypeId.SATELLITE//TERRAIN//HYBRID
   });
-  getPoints(movie_id_coordinates_address);
+  // getPoints(movie_id_coordinates_address);
 }
 
 function getPoints(address) {
@@ -32,10 +61,13 @@ function getPoints(address) {
               netural_sen+=1
             };
           }
+          // getGradient();
           // setMarkerToPoint(coordinates,sentiments);
           drawSentimentFanChart(good_sen,bad_sen,netural_sen);
           heatmap = new google.maps.visualization.HeatmapLayer({
-          data: coordinates,
+          data: coordinates.slice(1,5000),
+          rasius: 20,
+          // gradient: gradient,
           map: map
         });
         }
@@ -124,6 +156,6 @@ function getLabelContent(sentiment){
 
 function setHeatMapFeatureData(feature){
   current_topic=feature;
-  heatmap.setMap(null);
+  if(typeof heatmap !== "undefined"){heatmap.setMap(null);};
   getPoints(window[feature+"_id_coordinates_address"]);
 }

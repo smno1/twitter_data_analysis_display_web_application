@@ -460,6 +460,185 @@ function drawGymComparisonChart(){
         }]
     });
 }
+function drawEmojiComparisonChart(){
+    $('#comparison-chart-container').highcharts({
+        chart: {
+            zoomType: 'xy'
+        },
+        title: {
+            text: sortedEmojiChartedInfo.title
+        },
+        xAxis: [{
+            categories: sortedEmojiChartedInfo.postcodelst,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            title: {
+                text: 'Emoji Tweets Rate Benchmarked by population',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            opposite: true
+
+        }, { // Secondary yAxis
+            gridLineWidth: 0,
+            title: {
+                text: 'Average Age',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            },
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            }
+
+        }],
+        tooltip: {
+            shared: true
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            x: 80,
+            verticalAlign: 'top',
+            y: 55,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+        },
+        series: [{
+            name: 'Gym Benchmarked Rate',
+            type: 'spline',
+            data: sortedEmojiChartedInfo.emojilst,
+            dashStyle: 'shortdot',
+            tooltip: {
+                valueSuffix: ' '
+            }
+        },{
+            name: 'Average Age',
+            type: 'spline',
+            yAxis: 1,
+            data: sortedEmojiChartedInfo.ageLst,
+            tooltip: {
+                valueSuffix: ''
+            }
+
+        }]
+    });
+}
+
+function drawDiseaseComparisonChart(){
+    $('#comparison-chart-container').highcharts({
+        chart: {
+            zoomType: 'xy'
+        },
+        title: {
+            text: sortedDiseaseChartedInfo.title
+        },
+        xAxis: [{
+            categories: sortedDiseaseChartedInfo.postcodelst,
+            crosshair: true
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            title: {
+                text: 'Gym Tweets Rate Benchmarked by population',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            opposite: true
+
+        }, { // Secondary yAxis
+            gridLineWidth: 0,
+            title: {
+                text: 'Average Age',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            },
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
+            }
+
+        }, { // Tertiary yAxis
+            gridLineWidth: 0,
+            title: {
+                text: 'Average Income',
+                style: {
+                    color: Highcharts.getOptions().colors[2]
+                }
+            },
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[2]
+                }
+            },
+            opposite: true
+        }
+
+        ],
+        tooltip: {
+            shared: true
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            x: 80,
+            verticalAlign: 'top',
+            y: 55,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+        },
+        series: [{
+            name: 'Disease Benchmarked Rate',
+            type: 'spline',
+            data: sortedDiseaseChartedInfo.diseaselst,
+            dashStyle: 'shortdot',
+            tooltip: {
+                valueSuffix: ' '
+            }
+        },{
+            name: 'Average Age',
+            type: 'spline',
+            yAxis: 1,
+            data: sortedDiseaseChartedInfo.ageLst,
+            visible: false,
+            tooltip: {
+                valueSuffix: ''
+            }
+
+        }, {
+            name: 'Average Income',
+            type: 'spline',
+            yAxis: 2,
+            data: sortedDiseaseChartedInfo.incomelst,
+            visible: false,
+            tooltip: {
+                valueSuffix: ''
+            }
+
+        }]
+    });
+}
 
 
 function drawSentimentComparisonChart(){
@@ -609,6 +788,36 @@ function drawSentimentComparisonChart(){
                 }
             },
             opposite: true
+        }, { 
+            gridLineWidth: 0,
+            title: {
+                text: 'Disease related tweets Benchmarked by Population',
+                style: {
+                    color: Highcharts.getOptions().colors[9]
+                }
+            },
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[9]
+                }
+            },
+            opposite: true
+        }, { 
+            gridLineWidth: 0,
+            title: {
+                text: 'Emoji related tweets Benchmarked by Population',
+                style: {
+                    color: Highcharts.getOptions().colors[10]
+                }
+            },
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[10]
+                }
+            },
+            opposite: true
         }
 
         ],
@@ -711,7 +920,24 @@ function drawSentimentComparisonChart(){
             tooltip: {
                 valueSuffix: ''
             }
-
+        }, {
+            name: 'Disease Related Tweets',
+            type: 'spline',
+            yAxis: 9,
+            data: sortedSentimentChartedInfo.diseaselst,
+            visible: false,
+            tooltip: {
+                valueSuffix: ''
+            }
+        }, {
+            name: 'Emoji Related Tweets',
+            type: 'spline',
+            yAxis: 10,
+            data: sortedSentimentChartedInfo.emojilst,
+            visible: false,
+            tooltip: {
+                valueSuffix: ''
+            }
         }]
     });
 }

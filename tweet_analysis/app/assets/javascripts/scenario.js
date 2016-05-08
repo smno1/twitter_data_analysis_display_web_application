@@ -1,7 +1,7 @@
 var postData=[]
 var sortedSentimentChartedInfo={
     "postcodelst":[],"ageLst":[],"edulst":[],"unemploylst":[],"incomelst":[],"booklst":[],
-    "movielst":[],"crimelst":[],"gymlst":[],"sentimentLst":[],
+    "movielst":[],"crimelst":[],"gymlst":[],"sentimentLst":[],"emojilst":[], "diseaselst":[],
     "title": "Average Sentiment against all the other factors"
 };
 var sortedCrimeChartedInfo={
@@ -20,6 +20,15 @@ var sortedMovieChartedInfo={
 var sortedGymChartedInfo={
     "postcodelst":[],"gymlst":[],"ageLst":[],"incomelst":[],
     "title": "Gym related tweets rate against income, and age"
+};
+var sortedDiseaseChartedInfo={
+    "postcodelst":[],"diseaselst":[],"ageLst":[],"incomelst":[],
+    "title": "Disease related tweets rate against income, and age"
+};
+
+var sortedEmojiChartedInfo={
+    "postcodelst":[],"emojilst":[],"ageLst":[],
+    "title": "Emoji related tweets rate against age"
 };
 
 var ajaxCallCount=0;
@@ -47,6 +56,7 @@ function suburbDataHandler(data){
         "book": data.properties.book,
         "emoji": data.properties.emoji,
         "gym": data.properties.gym,
+        "disease": data.properties.disease,
         "movie": data.properties.movie,
         "sentiment_negative": data.properties.sentiment_negative,
         "sentiment_positive": data.properties.sentiment_positive,
@@ -69,7 +79,7 @@ function suburbDataHandler(data){
 function scenerioSentiment(){
     if(sortedSentimentChartedInfo.postcodelst.length>0){sortedSentimentChartedInfo={
     "postcodelst":[],"ageLst":[],"edulst":[],"unemploylst":[],"incomelst":[],"booklst":[],
-    "movielst":[],"crimelst":[],"gymlst":[],"sentimentLst":[],
+    "movielst":[],"crimelst":[],"gymlst":[],"sentimentLst":[],"emojilst":[], "diseaselst":[],
     "title": "Average Sentiment against all the other factors"};}
     // if(sortedSentimentChartedInfo.postcodelst.length>0){return;}
     // postData.sort(function(a,b){
@@ -79,7 +89,7 @@ function scenerioSentiment(){
     postData.sort(function(a,b){return a.sentiment_average - b.sentiment_average;});
     postData.forEach(function(a){
         if(typeof a.sentiment_average !== "undefined" && a.sentiment_average>0&& a.averageIncome>0&& a.eduTertiery>0&&
-         a.unemployment>0&&a.gym>0&&a.averageAge>0&&a.movie>0&&a.book>0&&a.crime>0){
+         a.unemployment>0&&a.gym>0&&a.averageAge>0&&a.movie>0&&a.book>0&&a.crime>0&&a.emoji>0&&a.disease>0){
             sortedSentimentChartedInfo.postcodelst.push(a.postcode);
             sortedSentimentChartedInfo.incomelst.push(a.averageIncome);
             sortedSentimentChartedInfo.sentimentLst.push(a.sentiment_average);
@@ -90,6 +100,8 @@ function scenerioSentiment(){
             sortedSentimentChartedInfo.booklst.push(a.book);
             sortedSentimentChartedInfo.gymlst.push(a.gym);
             sortedSentimentChartedInfo.movielst.push(a.movie);
+            sortedSentimentChartedInfo.emojilst.push(a.emoji);
+            sortedSentimentChartedInfo.diseaselst.push(a.disease);
         }
     });
 } 
@@ -132,6 +144,31 @@ function scenerioGym(){
     });
 }
 
+function scenerioEmoji(){
+    if(sortedEmojiChartedInfo.postcodelst.length>0){return;}
+    postData.sort(function(a,b){return a.emoji - b.emoji;})
+    postData.forEach(function(a){
+        if(a.emoji>0&& a.averageIncome>0&& a.averageAge>0){
+            sortedEmojiChartedInfo.postcodelst.push(a.postcode);
+            sortedEmojiChartedInfo.emojilst.push(a.emoji);
+            sortedEmojiChartedInfo.ageLst.push(a.averageAge);
+        }
+    });
+}
+
+function scenerioDisease(){
+    if(sortedDiseaseChartedInfo.postcodelst.length>0){return;}
+    postData.sort(function(a,b){return a.disease - b.disease;})
+    postData.forEach(function(a){
+        if(a.disease>0&& a.averageIncome>0&& a.averageAge>0){
+            sortedDiseaseChartedInfo.postcodelst.push(a.postcode);
+            sortedDiseaseChartedInfo.diseaselst.push(a.disease);
+            sortedDiseaseChartedInfo.incomelst.push(a.averageIncome);
+            sortedDiseaseChartedInfo.ageLst.push(a.averageAge);
+        }
+    });
+}
+
 function scenerioBook(){
     if(sortedBookChartedInfo.postcodelst.length>0){return;}
     postData.sort(function(a,b){return a.book - b.book;})
@@ -163,6 +200,14 @@ function setComparisonChartData(feature){
         case "Gym":
         scenerioGym();
         drawGymComparisonChart();
+        break;
+        case "Disease":
+        scenerioDisease();
+        drawDiseaseComparisonChart();
+        break;
+        case "Emoji":
+        scenerioEmoji();
+        drawEmojiComparisonChart();
         break;
         case "Sentiment":
         scenerioSentiment();

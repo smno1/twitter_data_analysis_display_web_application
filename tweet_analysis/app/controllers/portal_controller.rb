@@ -34,7 +34,7 @@ class PortalController < ApplicationController
   end
 
   def scenario
-    @selection=["Sentiment","Movie","Gym","Book","Crime"]
+    @selection=["Sentiment","Movie","Gym","Book","Crime","Disease","Emoji"]
   end
 
   def realtime
