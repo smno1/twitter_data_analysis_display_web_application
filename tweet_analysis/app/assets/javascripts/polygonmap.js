@@ -77,13 +77,13 @@ function getCorrespondingColor(data){
     case "sentiment_positive":
       return getRespond(data.properties.sentiment_positive);
     case "movie":
-      return getRespond(getFixedNumber(getCountData(data.movie,data.properties.population),2));
+      return getRespond(data.properties.movie);
     case "gym":
-      return getRespond(getFixedNumber(getCountData(data.gym,data.properties.population),2));
+      return getRespond(data.properties.gym);
     case "crime":
-      return getRespond(getFixedNumber(getCountData(data.crime,data.properties.population),2));
+      return getRespond(data.properties.crime);
     case "book":
-      return getRespond(getFixedNumber(getCountData(data.book,data.properties.population),2));
+      return getRespond(data.properties.book);
   }
   return "#000000"
 }
