@@ -76,15 +76,6 @@ function drawCrimeComparisonChart(){
         tooltip: {
             shared: true
         },
-        legend: {
-            layout: 'vertical',
-            align: 'left',
-            x: 80,
-            verticalAlign: 'top',
-            y: 55,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-        },
         series: [{
             name: 'Tertiary Education',
             type: 'spline',
@@ -122,6 +113,16 @@ function drawCrimeComparisonChart(){
             dashStyle: 'shortdot',
             tooltip: {
                 valueSuffix: ' '
+            }
+        }, {
+            type: 'pie',
+            name: 'Top Ten Crime Related Tweets Topic ',
+            data: crimeDistributionData,
+            center: [100, 80],
+            size: 200,
+            showInLegend: false,
+            dataLabels: {
+                enabled: false
             }
         }]
     });

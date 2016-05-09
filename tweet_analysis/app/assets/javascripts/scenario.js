@@ -30,7 +30,7 @@ var sortedEmojiChartedInfo={
     "postcodelst":[],"emojilst":[],"ageLst":[],
     "title": "Emoji related tweets rate against age"
 };
-
+var crimeDistributionData=[];
 var ajaxCallCount=0;
 
 // $(document).ajaxStop(function() {
@@ -43,12 +43,37 @@ function initScenarioChart(){
         ajaxCallCount=0;
         $("#scenario_sidebar").hide();
         $("#myProgress").show();
+        ajaxCallCount=0;
         getPostcodesCall(suburbDataHandler);
-    }else{
+        getCrimeTop10Distribution();
     }
-    
 }
 
+function getCrimeTop10Distribution(){
+    crimeDistributionData=[];
+    $.ajax({
+        url: hostAddr + crime_distribution_address,
+        type: 'get',
+        dataType: 'jsonp',
+        success: function(data) {
+            for (var key in data.crime_ccc_distribution) {
+                if (data.crime_ccc_distribution.hasOwnProperty(key)) {
+                    crimeDistributionData.push({"name":data.crime_ccc_distribution[key][0],"y":data.crime_ccc_distribution[key][1]});
+                }
+            }
+            // ajaxCountPlus();
+            ajaxCallCount+=1;
+        }
+    });
+}
+function ajaxCountPlus(){
+    ajaxCallCount+=1;
+    $("#myBar").css("width",(ajaxCallCount/(suburb_data_rows+1))*100 +'%');
+    if(ajaxCallCount== suburb_data_rows+1){
+        $("#myProgress").hide();
+        $("#scenario_sidebar").show();
+    }
+}
 function suburbDataHandler(data){
     postData.push({
         "postcode": data.properties.postcode,
@@ -66,21 +91,14 @@ function suburbDataHandler(data){
         "averageIncome": Number(data.properties.averageIncome),
         "averageAge": Number(data.properties.averageAge)
     });
-    ajaxCallCount+=1;
-    $("#myBar").css("width",(ajaxCallCount/suburb_data_rows)*100 +'%');
-    if(ajaxCallCount==suburb_data_rows){
-    // if(ajaxCallCount==50){
-        $("#myProgress").hide();
-        $("#scenario_sidebar").show();
-
-    }
+    ajaxCountPlus();
 }
 
 function scenerioSentiment(){
     if(sortedSentimentChartedInfo.postcodelst.length>0){sortedSentimentChartedInfo={
-    "postcodelst":[],"ageLst":[],"edulst":[],"unemploylst":[],"incomelst":[],"booklst":[],
-    "movielst":[],"crimelst":[],"gymlst":[],"sentimentLst":[],"emojilst":[], "diseaselst":[],
-    "title": "Average Sentiment against all the other factors"};}
+        "postcodelst":[],"ageLst":[],"edulst":[],"unemploylst":[],"incomelst":[],"booklst":[],
+        "movielst":[],"crimelst":[],"gymlst":[],"sentimentLst":[],"emojilst":[], "diseaselst":[],
+        "title": "Average Sentiment against all the other factors"};}
     // if(sortedSentimentChartedInfo.postcodelst.length>0){return;}
     // postData.sort(function(a,b){
     //     return (a.sentiment_average == b.sentiment_average) ? 0 : (a.sentiment_average > b.sentiment_average) ? 1 : -1;
@@ -89,21 +107,21 @@ function scenerioSentiment(){
     postData.sort(function(a,b){return a.sentiment_average - b.sentiment_average;});
     postData.forEach(function(a){
         if(typeof a.sentiment_average !== "undefined" && a.sentiment_average>0&& a.averageIncome>0&& a.eduTertiery>0&&
-         a.unemployment>0&&a.gym>0&&a.averageAge>0&&a.movie>0&&a.book>0&&a.crime>0&&a.emoji>0&&a.disease>0){
+           a.unemployment>0&&a.gym>0&&a.averageAge>0&&a.movie>0&&a.book>0&&a.crime>0&&a.emoji>0&&a.disease>0){
             sortedSentimentChartedInfo.postcodelst.push(a.postcode);
-            sortedSentimentChartedInfo.incomelst.push(a.averageIncome);
-            sortedSentimentChartedInfo.sentimentLst.push(a.sentiment_average);
-            sortedSentimentChartedInfo.edulst.push(a.eduTertiery);
-            sortedSentimentChartedInfo.unemploylst.push(a.unemployment);
-            sortedSentimentChartedInfo.ageLst.push(a.averageAge);
-            sortedSentimentChartedInfo.crimelst.push(a.crime);
-            sortedSentimentChartedInfo.booklst.push(a.book);
-            sortedSentimentChartedInfo.gymlst.push(a.gym);
-            sortedSentimentChartedInfo.movielst.push(a.movie);
-            sortedSentimentChartedInfo.emojilst.push(a.emoji);
-            sortedSentimentChartedInfo.diseaselst.push(a.disease);
-        }
-    });
+        sortedSentimentChartedInfo.incomelst.push(a.averageIncome);
+        sortedSentimentChartedInfo.sentimentLst.push(a.sentiment_average);
+        sortedSentimentChartedInfo.edulst.push(a.eduTertiery);
+        sortedSentimentChartedInfo.unemploylst.push(a.unemployment);
+        sortedSentimentChartedInfo.ageLst.push(a.averageAge);
+        sortedSentimentChartedInfo.crimelst.push(a.crime);
+        sortedSentimentChartedInfo.booklst.push(a.book);
+        sortedSentimentChartedInfo.gymlst.push(a.gym);
+        sortedSentimentChartedInfo.movielst.push(a.movie);
+        sortedSentimentChartedInfo.emojilst.push(a.emoji);
+        sortedSentimentChartedInfo.diseaselst.push(a.disease);
+    }
+});
 } 
 
 function scenerioCrime(){

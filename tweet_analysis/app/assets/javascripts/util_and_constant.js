@@ -1,6 +1,8 @@
 var hostAddr = 'http://115.146.89.67:5984';
 var suburb= '/suburb_boundaries';
 var live_stream='/live_stream/_all_docs';
+var crime_distribution_address='/distribution_ccc/cdee29f235bd36640bb7b28e34003dcc';
+var emoji_distribution_address='/distribution_ccc/cdee29f235bd36640bb7b28e3400343c';
 var movie_id_coordinates_address='/movie_postcode_ccc/_design/movie/_view/id_coordinates';
 // var gym_id_coordinates_address='/melbourne_ccc/_design/gym/_view/id_coordinates';
 var gym_id_coordinates_address='/gym_postcode_ccc/_design/gym/_view/id_coordinates';

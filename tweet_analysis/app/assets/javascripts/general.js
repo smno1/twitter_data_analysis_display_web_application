@@ -6,8 +6,8 @@ function initGeneralPieChart(){
         var address=window[pieChartCategory[i]+"_info"];
         getGeneralData(address,pieChartCategory[i],handlerFunction[i]);
     };
+    getEmojiDistribution();
 }
-
 function getObjectFromData(row){
     return {name: stripKeyFromLink(row.key), y: row.value[1], sentiment: row.value[0]};
 }
@@ -34,6 +34,78 @@ function getGeneralData(address,category,handler){
         success: function(data){
             handler(category,data.rows);
         }
+    });
+}
+
+function getEmojiDistribution(){
+    $.ajax({
+        url: hostAddr+emoji_distribution_address,
+        type: 'get',
+        dataType: 'jsonp',
+        success: function(data){
+            var emojiDistributionData=[];
+            x=[];
+            for (var key in data.emoticon_distribution) {
+                if (data.emoticon_distribution.hasOwnProperty(key)) {
+                    x.push(data.emoticon_distribution[key][0]);
+                    emojiDistributionData.push(data.emoticon_distribution[key][1]);
+                }
+            }
+            drawEmojiDistribution(x,emojiDistributionData);
+        }
+    });
+
+}
+function drawEmojiDistribution(x,emojiDistributionData){
+    $('#emoji-distribution-container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Emoji Distribution overview'
+        },
+        xAxis: {
+            categories: x,
+            crosshair: true
+        },
+        yAxis: {
+            type: 'logarithmic',
+            minorTickInterval: 0,
+            title: {
+                text: 'number of related tweets'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: "emoji",
+            data: emojiDistributionData,
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                format: '{point.y}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+
+        }]
     });
 }
 
