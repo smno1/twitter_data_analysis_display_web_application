@@ -1,4 +1,4 @@
-var map;
+var realtimeMap;
 var idArray=[];
 var counter=0;
 var counter2=0;
@@ -11,7 +11,7 @@ var mapProp = {
   mapTypeId:google.maps.MapTypeId.ROADMAP
   };
 
- map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+ realtimeMap=new google.maps.Map(document.getElementById("googleMap"),mapProp);
  setInterval(getID,1000);
 
 }
@@ -62,7 +62,7 @@ function addMarker(coordinates,sentiment_score,text,created_at)
           icon: "<%= asset_path('smile.png') %>",
           animation: google.maps.Animation.BOUNCE
            });
-          marker.setMap(map);
+          marker.setMap(realtimeMap);
       }
        if (sentiment_score<0){
         marker=new google.maps.Marker({
@@ -70,7 +70,7 @@ function addMarker(coordinates,sentiment_score,text,created_at)
           icon: "<%= asset_path('nh.png') %>",
           animation: google.maps.Animation.BOUNCE
            });
-         marker.setMap(map);
+         marker.setMap(realtimeMap);
        }
 
         setTimeout(function(){marker.setAnimation(null);},700);
@@ -88,10 +88,10 @@ function addMarker(coordinates,sentiment_score,text,created_at)
        google.maps.event.addListener(marker, 'click', function() {
         
          if(isInfoWindowOpen(infowindow)){
-          infowindow.close(map, marker);
+          infowindow.close(realtimeMap, marker);
         }
          else{
-          infowindow.open(map,marker);
+          infowindow.open(realtimeMap,marker);
          }
        });
       

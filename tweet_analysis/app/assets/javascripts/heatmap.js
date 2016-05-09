@@ -2,6 +2,7 @@ var map, heatmap;
 var current_topic="movie"
 var gradient=[];
 var gradient_limit={"movie": 1,"gym":1,"book":2,"crime":3,"disease":5};
+var tweets_limit={"movie": 5000,"gym":7000,"book":10000,"crime":20000,"disease":20000};
 var gradient_base = [
     'rgba(0, 255, 255',
     'rgba(0, 191, 255',
@@ -65,7 +66,7 @@ function getPoints(address) {
           // setMarkerToPoint(coordinates,sentiments);
           drawSentimentFanChart(good_sen,bad_sen,netural_sen);
           heatmap = new google.maps.visualization.HeatmapLayer({
-          data: coordinates.slice(1,5000),
+          data: coordinates.slice(1,tweets_limit[current_topic]),
           rasius: 20,
           // gradient: gradient,
           map: map
