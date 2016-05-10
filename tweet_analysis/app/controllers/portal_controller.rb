@@ -16,7 +16,7 @@ class PortalController < ApplicationController
         "gym"=>"Gym related tweets per one hundred thousand people",
         "book"=>"Book related tweets per one hundred thousand people",
         "crime"=>"Crime related tweets per one hundred thousand people",
-        "disease"=>"disease related tweets per one hundred thousand people"
+        "disease"=>"Disease related tweets per one hundred thousand people"
       }
   end
 
