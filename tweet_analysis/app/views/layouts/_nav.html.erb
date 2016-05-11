@@ -1,7 +1,11 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand"><span>Melbourne</span></a>
+      <li><%= link_to welcome_path , :class => "navbar-brand" do %> 
+            <span>Melbourne</span>
+          <% end %>
+      </li>
+      <!-- <a class="navbar-brand"><span>Melbourne</span></a> -->
     </div>
     <div>
       <ul class="nav navbar-nav">

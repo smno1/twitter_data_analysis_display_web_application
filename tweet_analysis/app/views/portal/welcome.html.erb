@@ -1,0 +1,20 @@
+<div id="welcome">
+    <div id="team-table">
+        <table class="table">
+          <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Student Number</th>
+            </tr>
+        </thead>
+        <tbody>
+          <% @team_member.each do |name,id| %>
+          <tr>
+            <td><%= name %></td>
+            <td><%= id %></td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+</div>
+</div>

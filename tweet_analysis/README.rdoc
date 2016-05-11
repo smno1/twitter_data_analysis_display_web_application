@@ -1,28 +1,22 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Description:
+The application is a heavy ajax-request project. Therefore, most of the business logic is written in javascript callback function when the ajax call finished while rails is mainly responsible for organising routing page, front-end presentation and file path organization and ORM is not even used in this project.
 
-Things you may want to cover:
+Target environment:
+Nectar cloud node with Ubuntu 15.10 droplet.
 
-* Ruby version
+Denpendency and Configuration:
+script to setup environment:
+sudo apt-get update
+sudo apt-get -y install ruby-dev zlib1g-dev liblzma-dev
+sudo apt-get -y install ruby
+sudo apt-get -y install ruby-railties
+sudo apt-get -y install git
+sudo apt-get -y install bundler
+sudo apt-get -y install libsqlite3-dev
 
-* System dependencies
+Database:
+CouchDB Service.
+Access Database by ReSTful call without any ORM.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
