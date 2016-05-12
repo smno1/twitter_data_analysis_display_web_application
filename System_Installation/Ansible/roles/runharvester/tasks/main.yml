@@ -1,0 +1,14 @@
+---
+# tasks file for upload scripts and runharvester
+- name: runharvester_stream
+  shell: cd /home/ubuntu/harvesters; nohup python Harvester_stream.py >> stream.txt&
+  async: 10
+  poll: 0
+- name: runharvester_search
+  shell: cd /home/ubuntu/harvesters; nohup python Harvester_search.py >> search.txt&
+  async: 10
+  poll: 0
+- name: runharvester_timeline
+  shell: cd /home/ubuntu/harvesters; nohup python Search_timeline.py >> timeline.txt&
+  async: 10
+  poll: 0

@@ -1,0 +1,14 @@
+---
+# file: cloudservers.yml
+- name: Install the software package in cloud servers
+  hosts: cloudservers
+  become: yes
+  become_user: root
+  gather_facts: no
+  roles:
+    - updatecache
+    - commonsoftware
+    - mountvolume
+    - couchdb
+    - uploadfile
+    - runharvester

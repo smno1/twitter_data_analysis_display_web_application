@@ -1,0 +1,8 @@
+---
+# tasks file for startwebserver
+- name: clone the webserver code from bitbucket
+  shell: git clone https://Sheen_ysm:ysm3443449@bitbucket.org/cloudcomputingtwitter/cloudcomputingproject.git
+- name: copy file to VMs
+  copy: src=../files/run.sh dest=/home/ubuntu/cloudcomputingproject/tweet_analysis/ owner=ubuntu group=ubuntu mode=0644
+- name: run shell
+  shell: cd cloudcomputingproject/tweet_analysis; chmod +x run.sh; sh run.sh
