@@ -102,18 +102,18 @@ function getRespond(attribute){
 function setPolyToMap(data){
   // Construct the polygon.
   cords=coordsParser(data.geometry.coordinates);
-  var marker = new MarkerWithLabel({
-        position: new google.maps.LatLng(0,0),
-        draggable: false,
-        raiseOnDrag: false,
-        map: polyMap,
-        labelContent: data.properties.name,//getContent(data.properties),
-        labelAnchor: new google.maps.Point(30, 40),
-        labelClass: "polygonLabel", // the CSS class for the label
-        labelStyle: {opacity: 1.0},
-        icon: "http://placehold.it/1x1",
-        visible: false
-     });
+  // var marker = new MarkerWithLabel({
+  //       position: new google.maps.LatLng(0,0),
+  //       draggable: false,
+  //       raiseOnDrag: false,
+  //       map: polyMap,
+  //       labelContent: data.properties.name,//getContent(data.properties),
+  //       labelAnchor: new google.maps.Point(30, 40),
+  //       labelClass: "polygonLabel", // the CSS class for the label
+  //       labelStyle: {opacity: 1.0},
+  //       icon: "http://placehold.it/1x1",
+  //       visible: false
+  //    });
   var polygon = new google.maps.Polygon({
     paths: cords,
     strokeColor: '#FF0000',
@@ -126,14 +126,14 @@ function setPolyToMap(data){
   google.maps.event.addListener(polygon, "mousemove", function(event) {
     polygon.setOptions({strokeColor: "#000000"});
     polygon.setOptions({strokeWeight: 4});
-    marker.setPosition(event.latLng);
-    marker.setVisible(true);
+    // marker.setPosition(event.latLng);
+    // marker.setVisible(true);
     updatePanelData(data);
   });
   google.maps.event.addListener(polygon, "mouseout", function(event) {
     polygon.setOptions({strokeColor: "#FF0000"});
     polygon.setOptions({strokeWeight: 1});
-    marker.setVisible(false);
+    // marker.setVisible(false);
   });
   mapData["polygon"].push(polygon);
   mapData["data"].push(data);
