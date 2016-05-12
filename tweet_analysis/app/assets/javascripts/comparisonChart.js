@@ -517,7 +517,7 @@ function drawEmojiComparisonChart(){
             backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
         },
         series: [{
-            name: 'Gym Benchmarked Rate',
+            name: 'Emoji Benchmarked Rate',
             type: 'spline',
             data: sortedEmojiChartedInfo.emojilst,
             dashStyle: 'shortdot',
@@ -557,7 +557,7 @@ function drawDiseaseComparisonChart(){
                 }
             },
             title: {
-                text: 'Gym Tweets Rate Benchmarked by population',
+                text: 'Disease Tweets Rate Benchmarked by population',
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
