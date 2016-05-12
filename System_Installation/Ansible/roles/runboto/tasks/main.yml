@@ -1,0 +1,4 @@
+---
+# tasks file for set up the instance by boto
+- name: run boto
+  shell: python /Users/sunshine/Desktop/Cloud_Project2/SystemInstallation/Boto/boto.py

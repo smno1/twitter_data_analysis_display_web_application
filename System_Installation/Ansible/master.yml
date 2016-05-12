@@ -1,0 +1,4 @@
+# file: master.yml
+- include: runboto.yml
+- include: cloudservers.yml
+- include: webservers.yml

@@ -1,0 +1,14 @@
+---
+# file: webservers.yml
+- name: Install the software package webservers
+  hosts: webservers
+  become: yes
+  become_user: root
+  gather_facts: no
+  roles:
+    - updatecache
+    # - commonsoftware
+    # - mountvolume
+    # - couchdb
+    - webrelatedpackage
+    - startwebserver
